@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Control de Personal</title>
+
+    <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body>
+
+    <div class="contenedor">
+
+        <div class="encabezado">
+            <h1>CONTROL DE PERSONAL</h1>
+            <p>Registro de ingreso y salida</p>
+        </div>
+
+        <div class="panel">
+
+            <label for="persona">
+                Seleccione el personal:
+            </label>
+
+            <select id="persona">
+                <option value="">-- Seleccione una persona --</option>
+                <option>Persona 1</option>
+                <option>Persona 2</option>
+                <option>Persona 3</option>
+                <option>Persona 4</option>
+                <option>Persona 5</option>
+                <option>Persona 6</option>
+                <option>Persona 7</option>
+                <option>Persona 8</option>
+                <option>Persona 9</option>
+                <option>Persona 10</option>
+            </select>
+
+            <div class="botones">
+
+                <button
+                    class="btn-ingreso"
+                    onclick="registrarIngreso()">
+                    INGRESO
+                </button>
+
+                <button
+                    class="btn-salida"
+                    onclick="registrarSalida()">
+                    SALIDA
+                </button>
+
+           <div class="estado">
+    <h2>Estado</h2>
+
+    <p id="estado">
+        Ninguna persona seleccionada.
+    </p>
+</div>
+
+<div class="personal-actual">
+
+    <h2>Personal actualmente dentro</h2>
+
+    <div id="personalDentro">
+        <p>No hay personas dentro.</p>
+    </div>
+
+</div>
+
+    <!-- Conectamos el funcionamiento de la aplicación -->
+    <script src="app.js"></script>
+
+</body>
+
+</html>
