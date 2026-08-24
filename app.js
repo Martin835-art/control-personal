@@ -1,16 +1,12 @@
-const URL_GOOGLE_SHEETS = "https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnSJ4qFXUqUH6Bmq_LTth9rk41NPqCu01XIGC1qZ-i8jWRPyMuEATGHuRAvHouDjxqZDYIHfCVBJOUiTz6IedZ0ybWp9OObOHY9_JXf3jwuMB5WuG0v08JtHyv8IuuUpM0KNBZG2YTRyNxop7oOdOy4-KNdk2XIvJhzYYgANLbOy3MSM0cKVnlLMdGJIFemLVEEfZVcxNJyssG9Si-M16muCQM5ZQkPRe8JxuyBp9VuGQMFoJAvBs0cLxdvknfelq-hMRdnXDjGyp4XaR-XDqHO6ShACwQ&lib=MqRSXxIl_H9rxUbbkv-TI3Q1olxMsDmJY";
-
+const URL_GOOGLE_SHEETS = "https://google.com";
 
 // Personas que actualmente están dentro
 let personasDentro = [];
 
-
 // ==========================================
 // REGISTRAR INGRESO O SALIDA
 // ==========================================
-
 function registrarMovimiento(movimiento) {
-
     const persona = document.getElementById("persona").value;
 
     if (persona === "") {
@@ -18,246 +14,120 @@ function registrarMovimiento(movimiento) {
         return;
     }
 
-
     // Evitar doble ingreso
     if (movimiento === "INGRESO" && personasDentro.includes(persona)) {
-
         alert(persona + " ya está registrada como DENTRO.");
-
         return;
     }
-
 
     // Evitar salida si no está dentro
     if (movimiento === "SALIDA" && !personasDentro.includes(persona)) {
-
         alert(persona + " no está registrada como DENTRO.");
-
         return;
     }
 
-
     const ahora = new Date();
-
     const fecha = ahora.toLocaleDateString("es-CO");
-
     const hora = ahora.toLocaleTimeString("es-CO");
 
-
     const datos = {
-
         persona: persona,
-
         movimiento: movimiento,
-
         fecha: fecha,
-
         hora: hora
-
     };
-
 
     // Enviar a Google Sheets
     fetch(URL_GOOGLE_SHEETS, {
-
         method: "POST",
-
-        mode: "no-cors",
-
         headers: {
             "Content-Type": "text/plain;charset=utf-8"
         },
-
         body: JSON.stringify(datos)
+    })
+    .then(res => console.log("Envío intentado"))
+    .catch(err => console.error("Error en envío:", err));
 
-    });
-
-
-    // Actualizar estado
+    // Actualizar estado visual inmediato
     if (movimiento === "INGRESO") {
-
         personasDentro.push(persona);
-
-        document.getElementById("estado").innerText =
-            persona + " está dentro. Ingreso: " + hora;
-
+        document.getElementById("estado").innerText = persona + " está dentro. Ingreso: " + hora;
     }
-
 
     if (movimiento === "SALIDA") {
-
-        personasDentro =
-            personasDentro.filter(p => p !== persona);
-
-        document.getElementById("estado").innerText =
-            persona + " salió. Salida: " + hora;
-
+        personasDentro = personasDentro.filter(p => p !== persona);
+        document.getElementById("estado").innerText = persona + " salió. Salida: " + hora;
     }
-
 
     actualizarPersonalDentro();
 
-
     // Agregar al historial visual
-    const icono =
-        movimiento === "INGRESO" ? "🟢" : "🔴";
-
-
+    const icono = movimiento === "INGRESO" ? "🟢" : "🔴";
     document.getElementById("historial").innerHTML +=
-
-        '<div class="registro">' +
-
-        persona +
-
-        " — " +
-
-        icono +
-
-        " " +
-
-        movimiento +
-
-        " — " +
-
-        fecha +
-
-        " — " +
-
-        hora +
-
-        "</div>";
-
+        '<div class="registro">' + persona + " — " + icono + " " + movimiento + " — " + fecha + " — " + hora + "</div>";
 }
-
 
 // ==========================================
 // MOSTRAR PERSONAL DENTRO
 // ==========================================
-
 function actualizarPersonalDentro() {
-
-    const contenedor =
-        document.getElementById("personalDentro");
-
+    const contenedor = document.getElementById("personalDentro");
 
     if (personasDentro.length === 0) {
-
-        contenedor.innerHTML =
-            "<p>No hay personas dentro.</p>";
-
+        contenedor.innerHTML = "<p>No hay personas dentro.</p>";
         return;
     }
 
-
     contenedor.innerHTML = "";
-
-
     personasDentro.forEach(function(persona) {
-
-        contenedor.innerHTML +=
-
-            '<div class="persona-dentro">' +
-
-            "🟢 " +
-
-            persona +
-
-            " — DENTRO" +
-
-            "</div>";
-
+        contenedor.innerHTML += '<div class="persona-dentro">' + "🟢 " + persona + " — DENTRO" + "</div>";
     });
-
 }
-
 
 // ==========================================
 // LEER GOOGLE SHEETS
 // ==========================================
-
 async function cargarEstadoActual() {
-
     try {
-
-        const respuesta =
-            await fetch(URL_GOOGLE_SHEETS);
-
-        const registros =
-            await respuesta.json();
-
+        const respuesta = await fetch(URL_GOOGLE_SHEETS);
+        const registros = await respuesta.json();
 
         personasDentro = [];
 
-
         // Revisar todos los registros
         registros.forEach(function(registro) {
-
             const persona = registro.persona;
-
             const movimiento = registro.movimiento;
 
-
             if (movimiento === "INGRESO") {
-
                 if (!personasDentro.includes(persona)) {
-
                     personasDentro.push(persona);
-
                 }
-
             }
-
 
             if (movimiento === "SALIDA") {
-
-                personasDentro =
-                    personasDentro.filter(
-                        p => p !== persona
-                    );
-
+                personasDentro = personasDentro.filter(p => p !== persona);
             }
-
         });
 
-
         actualizarPersonalDentro();
-
-
     } catch (error) {
-
-        console.error(
-            "Error leyendo Google Sheets:",
-            error
-        );
-
+        console.error("Error leyendo Google Sheets:", error);
     }
-
 }
-
 
 // ==========================================
 // BOTONES
 // ==========================================
-
 function registrarIngreso() {
-
     registrarMovimiento("INGRESO");
-
 }
-
 
 function registrarSalida() {
-
     registrarMovimiento("SALIDA");
-
 }
-
 
 // ==========================================
 // CARGAR ESTADO AL ABRIR LA APP
 // ==========================================
-
-window.addEventListener(
-    "load",
-    cargarEstadoActual
-);
+window.addEventListener("load", cargarEstadoActual);
