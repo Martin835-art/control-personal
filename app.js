@@ -1,4 +1,4 @@
-const URL_GOOGLE_SHEETS = "https://google.com";
+const URL_GOOGLE_SHEETS = "https://script.google.com/macros/library/d/1XQzYpaGq7FL3I8XviNOeEp3BL5NfN5UgtJR3Xl8uvsuuxaXwHJe_GbWf/8";
 
 // Personas que actualmente están dentro
 let personasDentro = [];
