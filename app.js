@@ -28,7 +28,7 @@ function registrarMovimiento(movimiento) {
 
     const ahora = new Date();
     const fecha = ahora.toLocaleDateString("es-CO");
-    const hora = ahora.toLocaleTimeString("es-CO");
+    const hora = SecurityUtils.sanitize(ahora.toLocaleTimeString("es-CO"));
 
     const datos = {
         persona: persona,
@@ -37,16 +37,15 @@ function registrarMovimiento(movimiento) {
         hora: hora
     };
 
-    // Enviar a Google Sheets
+    // Enviar a Google Sheets (Corregido con no-cors para celular)
     fetch(URL_GOOGLE_SHEETS, {
         method: "POST",
+        mode: "no-cors",
         headers: {
             "Content-Type": "text/plain;charset=utf-8"
         },
         body: JSON.stringify(datos)
-    })
-    .then(res => console.log("Envío intentado"))
-    .catch(err => console.error("Error en envío:", err));
+    });
 
     // Actualizar estado visual inmediato
     if (movimiento === "INGRESO") {
