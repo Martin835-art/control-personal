@@ -1,4 +1,4 @@
-const URL_GOOGLE_SHEETS = "https://script.google.com/macros/s/AKfycbwiz9TU_P5lkyG4wdOWhVdehg_rh7i14ajazz8BtVVqSTraOP1t_rw1E-g5bFL_hHWo7Q/exec";
+const URL_GOOGLE_SHEETS = "https://google.com";
 
 // Personas que actualmente están dentro
 let personasDentro = [];
@@ -28,7 +28,7 @@ function registrarMovimiento(movimiento) {
 
     const ahora = new Date();
     const fecha = ahora.toLocaleDateString("es-CO");
-    const hora = SecurityUtils.sanitize(ahora.toLocaleTimeString("es-CO"));
+    const hora = ahora.toLocaleTimeString("es-CO");
 
     const datos = {
         persona: persona,
@@ -37,7 +37,7 @@ function registrarMovimiento(movimiento) {
         hora: hora
     };
 
-    // Enviar a Google Sheets (Corregido con no-cors para celular)
+    // Enviar a Google Sheets (Mantiene el modo no-cors para celular)
     fetch(URL_GOOGLE_SHEETS, {
         method: "POST",
         mode: "no-cors",
