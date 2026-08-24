@@ -1,4 +1,4 @@
-const URL_GOOGLE_SHEETS = "https://script.google.com/macros/s/AKfycbwiz9TU_P5lkyG4wdOWhVdehg_rh7i14ajazz8BtVVqSTraOP1t_rw1E-g5bFL_hHWo7Q/exec";
+const URL_GOOGLE_SHEETS = "https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnSJ4qFXUqUH6Bmq_LTth9rk41NPqCu01XIGC1qZ-i8jWRPyMuEATGHuRAvHouDjxqZDYIHfCVBJOUiTz6IedZ0ybWp9OObOHY9_JXf3jwuMB5WuG0v08JtHyv8IuuUpM0KNBZG2YTRyNxop7oOdOy4-KNdk2XIvJhzYYgANLbOy3MSM0cKVnlLMdGJIFemLVEEfZVcxNJyssG9Si-M16muCQM5ZQkPRe8JxuyBp9VuGQMFoJAvBs0cLxdvknfelq-hMRdnXDjGyp4XaR-XDqHO6ShACwQ&lib=MqRSXxIl_H9rxUbbkv-TI3Q1olxMsDmJY";
 
 
 // Personas que actualmente están dentro
